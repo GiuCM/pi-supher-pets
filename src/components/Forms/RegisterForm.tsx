@@ -9,6 +9,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { cnpj, cpf } from "cpf-cnpj-validator";
 import { validatePhone } from "../../utils/validators/phone";
+import { useTranslation } from "react-i18next";
 
 interface FormValuesProps {
   name: string,
@@ -27,6 +28,7 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm = ({ isGuardian, onTermsModal }: RegisterFormProps) => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { signUpGuardian, signUpBloodCenter } = useContext(UserContext);
 
@@ -119,10 +121,10 @@ export const RegisterForm = ({ isGuardian, onTermsModal }: RegisterFormProps) =>
   return (
     <>
       <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
-        <h2 className="lg:text-2xl text-xl font-semibold text-zinc-800 text-center mb-3">Cadastro {isGuardian ? 'Tutor' : 'Hemocentro'}</h2>
+        <h2 className="lg:text-2xl text-xl font-semibold text-zinc-800 text-center mb-3">{isGuardian ? t('forms.guardianRegistration') : t('forms.bloodCenterRegistration')}</h2>
         <TextField
           name="name"
-          placeholder="Nome"
+          placeholder={t('forms.name')!}
           value={values.name}
           onChange={(value) => setFieldValue('name', value)}
           onBlur={handleBlur}
@@ -148,7 +150,7 @@ export const RegisterForm = ({ isGuardian, onTermsModal }: RegisterFormProps) =>
         }
         <TextField
           name="phone"
-          placeholder="Celular"
+          placeholder={t('forms.phone')!}
           value={values.phone}
           onChange={(value) => { setFieldValue('phone', formatPhoneNumber(value)) }}
           onBlur={handleBlur}
@@ -164,7 +166,7 @@ export const RegisterForm = ({ isGuardian, onTermsModal }: RegisterFormProps) =>
         />
         <TextField
           name="password"
-          placeholder="Senha"
+          placeholder={t('forms.password')!}
           value={values.password}
           onChange={(value) => { setFieldValue('password', value) }}
           onBlur={handleBlur}
@@ -173,7 +175,7 @@ export const RegisterForm = ({ isGuardian, onTermsModal }: RegisterFormProps) =>
         />
         <TextField
           name="confirmPassword"
-          placeholder="Confirmar Senha"
+          placeholder={t('forms.confirmPassword')!}
           value={values.confirmPassword}
           onChange={(value) => { setFieldValue('confirmPassword', value) }}
           onBlur={handleBlur}
@@ -182,7 +184,7 @@ export const RegisterForm = ({ isGuardian, onTermsModal }: RegisterFormProps) =>
         />
         <div className="flex gap-2 items-center">
           <input name="terms" checked={values.terms} onClick={() => { setFieldTouched('terms') }} value={"terms"} onChange={handleChange} type={"checkbox"} className={"w-fit accent-sky-800"} />
-          <label className="text-sm">Concordo com os <a onClick={onTermsModal} className="text-sky-800 underline font-bold">termos de uso e política de privacidade</a></label>
+          <label className="text-sm">{t('forms.agreeTo')} <a onClick={onTermsModal} className="text-sky-800 underline font-bold">{t('forms.termsAndPrivacyPolicy')}</a></label>
         </div>
         {(touched.terms && errors.terms) ?
           <span className="text-red-600 text-xs">
@@ -198,7 +200,7 @@ export const RegisterForm = ({ isGuardian, onTermsModal }: RegisterFormProps) =>
             disabled={isLoading}
             className="bg-sky-800 text-white hover:bg-sky-700 rounded-full h-10 w-fit mt-2 px-4 flex justify-center items-center gap-2 disabled:bg-gray-300 disabled:text-gray-700"
           >
-            Cadastrar
+            {t('buttons.register')}
           </ButtonAsync>
         </div>
       </form>

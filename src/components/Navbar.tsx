@@ -1,8 +1,10 @@
-import { List, X } from "phosphor-react";
+import { Popover } from "@headlessui/react";
+import { CaretDown, CaretUp, Globe, List, X } from "phosphor-react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo-supher.png";
 import SmallLogo from "../assets/small-logo-supher.png";
+import { Tradutor } from "./i18n/Tradutor";
 import { NavLink } from "./NavLink";
 
 interface NavbarProps {
@@ -17,12 +19,14 @@ export type LinksProps = {
 
 export function Navbar({ links, children }: NavbarProps) {
 	const [showNav, setShowNav] = useState(false);
+	const [openChangeLanguage, setOpenChangeLanguage] = useState(false);
 	const location = useLocation();
 	const navigate = useNavigate();
 
 	return (
-		<div
-			className={`
+		<>
+			<div
+				className={`
 				lg:h-[4.5rem] 
 				lg:flex 
 			bg-yellow-50
@@ -39,35 +43,35 @@ export function Navbar({ links, children }: NavbarProps) {
 				m-auto
 				${location.pathname !== '/' && 'flex'}
 			`}
-		>
-			<div className="flex items-center text">
-				<span>
-					<img
-						src={Logo}
-						className="lg:w-80 w-52 max-h-fit pl-6 lg:block hidden"
-						onClick={() => navigate("/")}
-					/>
-					<img
-						src={SmallLogo}
-						className="lg:w-80 w-[3.75rem] max-h-fit pl-6 lg:hidden block"
-						onClick={() => navigate("/")}
-					/>
-				</span>
-				{location.pathname === "/" &&
-					<div
-						onClick={() => setShowNav(!showNav)}
-						className="text-5xl absolute right-0 top-0 p-5 lg:hidden"
-					>
-						{showNav ? (
-							<X size={25} color="#474747" />
-						) : (
-							<List size={25} color="#474747" />
-						)}
-					</div>
-				}
-			</div>
-			<div
-				className={`
+			>
+				<div className="flex items-center text">
+					<span>
+						<img
+							src={Logo}
+							className="lg:w-80 w-52 max-h-fit pl-6 lg:block hidden"
+							onClick={() => navigate("/")}
+						/>
+						<img
+							src={SmallLogo}
+							className="lg:w-80 w-[3.75rem] max-h-fit pl-6 lg:hidden block"
+							onClick={() => navigate("/")}
+						/>
+					</span>
+					{location.pathname === "/" &&
+						<div
+							onClick={() => setShowNav(!showNav)}
+							className="text-5xl absolute right-0 top-0 p-5 lg:hidden"
+						>
+							{showNav ? (
+								<X size={25} color="#474747" />
+							) : (
+								<List size={25} color="#474747" />
+							)}
+						</div>
+					}
+				</div>
+				<div
+					className={`
 					lg:h-fit
 					lg:static
 					lg:mt-0
@@ -77,9 +81,9 @@ export function Navbar({ links, children }: NavbarProps) {
 					${location.pathname === "/" && 'mt-3 w-full h-screen absolute justify-end flex'}
 					${location.pathname === "/" && (showNav ? "right-0" : "right-[-100%]")}
 				`}
-			>
-				<div
-					className={`
+				>
+					<div
+						className={`
 						lg:bg-transparent
 						lg:backdrop-blur-none
 						lg:bg-opacity-0
@@ -89,15 +93,15 @@ export function Navbar({ links, children }: NavbarProps) {
 						duration-500	
 						${showNav ? "bg-opacity-30 bg-black backdrop-blur-lg" : "bg-transparent"}
 					`}
-					onClick={() => setShowNav(!showNav)}
-				/>
-				<ul
-					className={`
+						onClick={() => setShowNav(!showNav)}
+					/>
+					<ul
+						className={`
 						rigth-0
 						w-full
 						lg:items-center 
 						lg:justify-end 
-						lg:static 
+						
 						lg:z-auto 
 						lg:pb-0 
 						lg:pl-0 
@@ -105,21 +109,34 @@ export function Navbar({ links, children }: NavbarProps) {
 						lg:flex-row
 						lg:h-fit
 						items-end
-						${location.pathname === "/" ? 'w-3/4 pb-12 pr-6 pl-9 flex text-right bg-yellow-50 h-screen flex-col' : 'mr-4'}
+						${location.pathname === "/" ? 'lg:static w-3/4 pb-12 pr-6 pl-9 flex text-right bg-yellow-50 h-screen flex-col' : 'mr-4 flex items-center gap-3'}
 					`}
-				>
-					{links?.map((linkProps) => (
-						<li
-							onClick={() => setShowNav(false)}
-							key={linkProps.label}
-							className='text-xl lg:my-0 my-3 w-fit	items-center'
-						>
-							<NavLink link={linkProps.link} label={linkProps.label} />
-						</li>
-					))}
-					{children}
-				</ul>
+					>
+						{links?.map((linkProps) => (
+							<li
+								onClick={() => setShowNav(false)}
+								key={linkProps.label}
+								className='text-xl lg:my-0 my-3 w-fit	items-center'
+							>
+								<NavLink link={linkProps.link} label={linkProps.label} />
+							</li>
+						))}
+						{children}
+						<Popover className='flex flex-col items-end'>
+							<Popover.Button className="flex items-center gap-1" onClick={() => setOpenChangeLanguage(!openChangeLanguage)}>
+								<Globe size={25} />
+								{openChangeLanguage
+									? <CaretUp />
+									: <CaretDown />
+								}
+							</Popover.Button>
+							<Popover.Panel>
+								<Tradutor />
+							</Popover.Panel>
+						</Popover>
+					</ul>
+				</div>
 			</div>
-		</div>
+		</>
 	)
 }

@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { TextField } from "../TextField";
 import supherClient from '../../service/SupherClient';
-
+import { useTranslation } from "react-i18next";
 
 interface FormValuesProps {
   email: string,
@@ -16,6 +16,8 @@ interface updatePasswordProps {
 }
 
 export const RecoverPasswordForm = ({ isGuardian }: updatePasswordProps) => {
+  const { t } = useTranslation();
+
   const initialValues: FormValuesProps = {
     email: '',
     token: '',
@@ -43,30 +45,28 @@ export const RecoverPasswordForm = ({ isGuardian }: updatePasswordProps) => {
 
   const { values, setFieldValue, handleSubmit, handleBlur, touched, errors } = formik;
 
-  async function updatePassword(email: string, pass: string){
-    if(isGuardian) {
-      const response = await supherClient.updatePasswordGuardian({email, pass}, values.token);
+  async function updatePassword(email: string, pass: string) {
+    if (isGuardian) {
+      const response = await supherClient.updatePasswordGuardian({ email, pass }, values.token);
 
     } else {
-      const response = await supherClient.updatePasswordBloodCenter({email, pass}, values.token);
-
+      const response = await supherClient.updatePasswordBloodCenter({ email, pass }, values.token);
     }
-
   }
 
   return (
     <>
       <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
-      <h2 className="lg:text-2xl text-xl font-semibold text-zinc-800 text-center mb-3">Recuperar senha</h2>
-      <TextField
-                  name="email"
-                  placeholder="Email"
-                  value={values.email}
-                  onChange={(value) => { setFieldValue('email', value);  }}
-                  onBlur={handleBlur}
-                  errorMessage={(touched.email && errors.email) ? errors.email : undefined}
-                />
-      <TextField
+        <h2 className="lg:text-2xl text-xl font-semibold text-zinc-800 text-center mb-3">Recuperar senha</h2>
+        <TextField
+          name="email"
+          placeholder="Email"
+          value={values.email}
+          onChange={(value) => { setFieldValue('email', value); }}
+          onBlur={handleBlur}
+          errorMessage={(touched.email && errors.email) ? errors.email : undefined}
+        />
+        <TextField
           name="token"
           placeholder="Digite o token de verificação recebido por email"
           value={values.token}
@@ -77,7 +77,7 @@ export const RecoverPasswordForm = ({ isGuardian }: updatePasswordProps) => {
         />
         <TextField
           name="password"
-          placeholder="Senha"
+          placeholder={t('forms.password')!}
           value={values.password}
           onChange={(value) => { setFieldValue('password', value) }}
           onBlur={handleBlur}

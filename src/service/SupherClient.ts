@@ -14,7 +14,7 @@ import {
 
 export class SupherClient {
   api = axios.create({
-    baseURL: "https://supher-api.herokuapp.com/",
+    baseURL: "https://supher-api.onrender.com/",
     // "http://localhost:3000"
   });
 

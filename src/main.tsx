@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import supherClient from './service/SupherClient'
 import './styles/global.css'
 import "react-toastify/dist/ReactToastify.min.css";
+import './i18n'
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 
