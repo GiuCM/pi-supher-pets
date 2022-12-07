@@ -1,3 +1,10 @@
+// import { useTranslation } from "react-i18next";
+
+
+// const { t } = useTranslation();
+// const selectState = t('forms.selectState')
+// console.log(selectState)
+
 export const stateOptions = [
   { value: '', text: 'Selecione o estado' },
   { value: 'AC', text: 'Acre' },

@@ -1,4 +1,5 @@
 import { FirstAid, PawPrint } from "phosphor-react";
+import { useTranslation } from "react-i18next";
 
 interface ButtonUserProps {
   label: string;
@@ -13,6 +14,8 @@ export function ButtonUser({
   isBloodCenter,
   onChangeUser,
 }: ButtonUserProps) {
+  const { t } = useTranslation();
+
   return (
     <button
       className={`
@@ -30,7 +33,7 @@ export function ButtonUser({
         items-center
         transition-all
         duration-500
-        ${label === "Hemocentro" ? "rounded-l-none" : "rounded-r-none"}
+        ${label === t('buttons.bloodCenter') ? "rounded-l-none" : "rounded-r-none"}
         ${
           isGuardian || isBloodCenter
             ? "bg-zinc-200 shadow-inner text-zinc-600"
@@ -39,7 +42,7 @@ export function ButtonUser({
       `}
       onClick={onChangeUser}
     >
-      {label === "Hemocentro" ? <FirstAid /> : <PawPrint />}
+      {label === t('buttons.bloodCenter') ? <FirstAid /> : <PawPrint />}
       {label}
     </button>
   );

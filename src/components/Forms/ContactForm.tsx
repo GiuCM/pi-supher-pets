@@ -4,6 +4,7 @@ import emailjs from '@emailjs/browser';
 import { TextField } from "../TextField";
 import { useState } from "react";
 import { ButtonAsync } from "../Buttons/ButtonAsync";
+import { useTranslation } from "react-i18next";
 
 interface FormValuesProps {
 	name: string,
@@ -13,6 +14,7 @@ interface FormValuesProps {
 }
 
 export function ContactForm() {
+	const { t } = useTranslation();
 	const [isLoading, setIsLoading] = useState(false);
 	const [toSend, setToSend] = useState({
 		name: '',
@@ -71,7 +73,7 @@ export function ContactForm() {
 				<div className="flex flex-row justify-between items-center w-full gap-4">
 					<TextField
 						name="name"
-						placeholder="Nome"
+						placeholder={t('forms.name')!}
 						value={values.name}
 						onChange={(value) => { setFieldValue('name', value); setToSend({ ...toSend, name: value }) }}
 						onBlur={handleBlur}
@@ -88,7 +90,7 @@ export function ContactForm() {
 				</div>
 				<TextField
 					name="subject"
-					placeholder="Assunto"
+					placeholder={t('forms.subject')!}
 					value={values.subject}
 					onChange={(value) => { setFieldValue('subject', value); setToSend({ ...toSend, subject: value }) }}
 					onBlur={handleBlur}
@@ -96,7 +98,7 @@ export function ContactForm() {
 				/>
 				<TextField
 					name="message"
-					placeholder="Mensagem"
+					placeholder={t('forms.message')!}
 					value={values.message}
 					onChange={(value) => { setFieldValue('message', value); setToSend({ ...toSend, message: value }) }}
 					onBlur={handleBlur}
@@ -110,7 +112,7 @@ export function ContactForm() {
 						disabled={isLoading}
 						className="bg-sky-800 text-white hover:bg-sky-700 rounded-full h-10 w-fit mt-2 px-4 flex justify-center items-center gap-2 disabled:bg-gray-300 disabled:text-gray-700"
 					>
-						Enviar
+						{t('buttons.submit')}
 					</ButtonAsync>
 				</div>
 			</form>

@@ -2,14 +2,9 @@ import {
   CaretDown,
   CaretLeft,
   CheckCircle,
-  FirstAidKit,
-  Kanban,
-  MagnifyingGlass,
-  NewspaperClipping,
 } from "phosphor-react";
 import { Footer } from "../components/Footer";
 import { LinksProps, Navbar } from "../components/Navbar";
-import Pets from "../assets/gato-e-cachorro.png";
 import SupherPets from "../assets/supherpets.png";
 
 import Form from "../assets/pet-form.png";
@@ -19,19 +14,14 @@ import Local from "../assets/local.jpeg";
 
 import Yo from "../assets/yo.png";
 import Giu from "../assets/giu.png";
+import Ju from "../assets/ju.png";
+import Rob from "../assets/rob.png";
 
 import { ButtonNavbar } from "../components/Buttons/ButtonNavbar";
 import useCollapse from "react-collapsed";
 import { ContactForm } from "../components/Forms/ContactForm";
 import { ReactElement } from "react";
-
-let ancors: LinksProps[];
-ancors = [
-  { link: "#sobre", label: "Sobre" },
-  { link: "#aos-hemocentros", label: "Aos Hemocentros" },
-  { link: "#faq", label: "FAQ" },
-  { link: "#quem-somos", label: "Quem somos" },
-];
+import { useTranslation } from "react-i18next";
 
 interface AboutItemProps {
   title: string;
@@ -112,6 +102,16 @@ function DeveloperItem({ name, descrption, image }: DeveloperProps) {
 }
 
 export function Home() {
+  const { t } = useTranslation();
+
+  let ancors: LinksProps[];
+  ancors = [
+    { link: "#sobre", label: t('home.about') },
+    { link: "#aos-hemocentros", label: t('home.toBloodCenters') },
+    { link: "#faq", label: "FAQ" },
+    { link: "#quem-somos", label: t('home.whoWeAre') },
+  ];
+
   return (
     <div className="flex flex-col min-h-screen">
       <header>
@@ -119,13 +119,13 @@ export function Home() {
           <div className="py-2 items-end bottom-0 flex lg:flex-row flex-col lg:gap-8 w-full lg:w-fit">
             <ButtonNavbar
               type="button"
-              label="Registre-se"
+              label={t('buttons.register')}
               path="/register"
               role="secondary"
             />
             <ButtonNavbar
               type="button"
-              label="Entre"
+              label={t('buttons.login')}
               path="/login"
               role="primary"
             />
@@ -140,12 +140,11 @@ export function Home() {
           <div className="flex md:flex-row justify-between flex-col-reverse">
             <div className="lg:w-3/5 w-full flex flex-col gap-3 lg:gap-0">
               <h1 className=" text-cyan-900 md:text-5xl text-xl font-bold">
-                Faça do seu pet um herói, agende uma doação de sangue!
+                {t('home.makeYourPetAHero')}
               </h1>
               <div className="md:py-5 md:gap-2 flex flex-col">
                 <p className="md:text-xl text-base mb-2 lg:mb-0">
-                  Você sabia que seu pet pode salvar vidas de outros animais
-                  através da doação sanguínea?
+                  {t('home.saveLivesThroughDoanation')}
                 </p>
                 <p className="flex flex-row gap-2 items-center md:text-xl text-base">
                   <CheckCircle
@@ -153,7 +152,7 @@ export function Home() {
                     className="text-green-400"
                     weight="fill"
                   />
-                  Realize Seu cadastro
+                  {t('home.completeRegistration')}
                 </p>
                 <p className="flex flex-row gap-2 items-center md:text-xl text-base">
                   <CheckCircle
@@ -161,7 +160,7 @@ export function Home() {
                     className="text-green-400"
                     weight="fill"
                   />
-                  Inclua seu pet
+                  {t('home.includePets')}
                 </p>
                 <p className="flex flex-row gap-2 items-center md:text-xl text-base">
                   <CheckCircle
@@ -169,12 +168,12 @@ export function Home() {
                     className="text-green-400"
                     weight="fill"
                   />
-                  Procure o receptor mais próximo
+                  {t('home.searchRecievers')}
                 </p>
               </div>
               <div className="lg:text-start text-center">
                 <ButtonNavbar
-                  label="Cadastre-se"
+                  label={t('buttons.register')}
                   path="/register"
                   role="primary"
                   type="button"
@@ -190,37 +189,35 @@ export function Home() {
         <section className="flex flex-col pt-20 gap-6" id="sobre">
           <div className="flex flex-col items-center">
             <p className="md:text-4xl text-xl font-bold text-zinc-800 pb-4">
-              Sobre
+              {t('home.about')}
             </p>
             <p className="text-base md:w-3/5 w-full md:text-center text-justify md:text-xl">
-              Unimos bancos de sangue veterinário e tutores de pets em um ambiente
-              digital, afim de facilitar o processo de doação de sangue, possibilitando o
-              tratamento de diversos animais.
+              {t('home.aboutMessage')}
             </p>
           </div>
           <div className="md:pt-16 flex flex-col items-center">
-            <p className="lg:text-xl font-bold text-zinc-400">Como funciona?</p>
+            <p className="lg:text-xl font-bold text-zinc-400">{t('home.howItWorks')}</p>
             <p className="lg:text-4xl font-bold text-zinc-800">
-              Principais funcionalidades
+              {t('home.features')}
             </p>
             <div className="flex md:flex-row flex-col justify-center items-center md:items-start lg:gap-40 gap-6">
               <AboutItem
-                title="Cadastro de multiplos pets"
-                text="Você pode cadastrar todos os seus pets!"
+                title={t('home.featurePets')}
+                text={t('home.featurePetsMessage')}
                 icon={
                   <img src={Form} className="lg:w-40 w-24 p-1 max-h-fit " />
                 }
               />
               <AboutItem
-                title="Gerenciamento de consultas"
-                text="Receba notificações sobre as consultas de cada pet e acesse os resultados!"
+                title={t('home.featureAppointments')}
+                text={t('home.featureAppointmentsMessage')}
                 icon={
                   <img src={Calendar} className="lg:w-40 w-24 p-1 max-h-fit" />
                 }
               />
               <AboutItem
-                title="Encontre hemocentros"
-                text="Conheça os bancos de sangue próximos a você!"
+                title={t('home.featureBloodCenters')}
+                text={t('home.featureBloodCentersMessage')}
                 icon={
                   <img src={Local} className="lg:w-40 w-24 max-h-fit " />
                 }
@@ -233,19 +230,17 @@ export function Home() {
           <div className="md:py-16 md:px-10 lg:px-20 lg:gap-20 px-4 py-5 flex lg:flex-row justify-center items-center flex-col-reverse bg-white shadow rounded-3xl">
             <div className="w-full flex flex-col gap-4">
               <p className="lg:text-xl font-bold text-zinc-600">
-                Aos Hemocentros
+                {t('home.toBloodCenters')}
               </p>
               <p className="lg:text-4xl text-xl font-bold text-zinc-800">
-                Hemocentros e veterinários
+                {t('home.bloodCentersSubtitle')}
               </p>
               <p className="text-base text-justify">
-                O SUPHER Pets foi criado para te auxiliar a encontrar doadores e
-                gerenciar consultas. Através dele você pode criar alertas de
-                necessidade, visulizar perfis dos animais e agendar consultas.
+                {t('home.toBloodCentersMessage')}
               </p>
               <div className="lg:text-start text-center">
                 <ButtonNavbar
-                  label="Cadastre-se"
+                  label={t('buttons.register')}
                   path="/register"
                   role="primary"
                   type="button"
@@ -264,47 +259,47 @@ export function Home() {
         >
           <p className="lg:text-xl font-bold text-zinc-600">FAQ</p>
           <p className="lg:text-4xl text-xl font-bold text-red-600">
-            Perguntas frequentes
+            {t('home.frequentlyQuestions')}
           </p>
           <div className="flex flex-col w-full gap-4 mt-5">
             <CollapsibleFaq
-              question="Todos os gatos e cães podem doar sangue?"
-              response="Todos que estejam saudáveis e tenham o peso e idade seguros, você pode verificar se eles estão aptos cadastrando-os e agendando uma consulta"
+              question={t('home.questions.allPetsCanDonate')}
+              response={t('home.questions.allPetsCanDonateResponse')}
               number="1"
             />
             <CollapsibleFaq
-              question="Quais os benefícios de doar sangue?"
-              response="O procedimento conta com o exame de sangue para identificar a tipagem sanguínea, além disso, diversas clínicas oferecerem exames adicionais gratuitos."
+              question={t('home.questions.benefits')}
+              response={t('home.questions.benefitsResponse')}
               number="2"
             />
             <CollapsibleFaq
-              question="Como saber se meu pet pode doar sangue?"
-              response="Ao realizar o cadastro do seu pet você saberá se o seu pet é apto para doação de acordo com as informações cadastradas, os veterinários também avaliam a saúde, peso e idade do animal na primeira consulta."
+              question={t('home.questions.canMyPetDonate')}
+              response={t('home.questions.canMyPetDonateResponse')}
               number="3"
             />
             <CollapsibleFaq
-              question="A doação de sangue veterinário oferece riscos ao pet?"
-              response="Não, é um procedimento seguro e sem efeitos colaterais."
+              question={t('home.questions.risks')}
+              response={t('home.questions.risksResponse')}
               number="4"
             />
             <CollapsibleFaq
-              question="Gatos e cães possuem tipos sanguíneos?"
-              response="Sim, os tipos sanguíneos são diferentes para cada espécie, ou seja, o esquema de tipagem sanguínea é distinto entre cães e gatos, e diferentes também dos humanos."
+              question={t('home.questions.bloodTypes')}
+              response={t('home.questions.bloodTypesReponse')}
               number="5"
             />
             <CollapsibleFaq
-              question="Qual o intervalo de tempo entre uma doação e outra?"
-              response="Cada hemocentro aplica seu intervalo de acordo com a saúde do cão, popularmente o período é de em média três meses."
+              question={t('home.questions.donationInterval')}
+              response={t('home.questions.donationIntervalResponse')}
               number="6"
             />
             <CollapsibleFaq
-              question="Qual a quantidade de sangue que colhem de cada pet?"
-              response="Em média 20 do volume do sangue do doador."
+              question={t('home.questions.amountOfBlood')}
+              response={t('home.questions.amountOfBloodResponse')}
               number="7"
             />
             <CollapsibleFaq
-              question="Onde posso levar meu amiguinho de quatro patas para doação?"
-              response="Para descobrir os hemocentros mais próximos de você basta criar sua conta e visualizar a lista de hemocentros no lado direito da página."
+              question={t('home.questions.whereToDonate')}
+              response={t('home.questions.whereToDonateResponse')}
               number="8"
             />
           </div>
@@ -312,11 +307,11 @@ export function Home() {
 
         <section className="pt-20" id="quem-somos">
           <div className="lg:py-16 md:px-10 lg:px-20 py-5 px-4 flex items-start flex-col bg-white shadow rounded-3xl">
-            <p className="lg:text-xl font-bold text-zinc-600">Quem somos</p>
+            <p className="lg:text-xl font-bold text-zinc-600">{t('home.whoWeAre')}</p>
             <p className="lg:text-4xl text-xl font-bold text-zinc-800">
-              Conheça os idealizadores
+              {t('home.meetTheCreators')}
             </p>
-            <div className="mt-4 lg:w-full w-full flex lg:flex-row flex-col justify-center md:gap-8 gap-4">
+            <div className="mt-4 lg:w-full w-full grid lg:grid-cols-2 grid-cols-1 justify-center md:gap-8 gap-4">
               <DeveloperItem
                 name="Giuliana Missio"
                 descrption="Web Developer, 20 anos"
@@ -326,6 +321,16 @@ export function Home() {
                 name="Yolanda Ferreira"
                 descrption="Web Developer, 20 anos"
                 image={<img src={Yo} className="w-20 max-h-fit" />}
+              />
+              <DeveloperItem
+                name="Julia Romani"
+                descrption="Web Developer, 20 anos"
+                image={<img src={Ju} className="w-20 max-h-fit" />}
+              />
+              <DeveloperItem
+                name="Robson dos Anjos"
+                descrption="Web Developer, 21 anos"
+                image={<img src={Rob} className="w-20 max-h-fit" />}
               />
             </div>
           </div>

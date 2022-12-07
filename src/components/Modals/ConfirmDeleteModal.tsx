@@ -1,6 +1,7 @@
 import { Dialog } from "@headlessui/react";
 import { Check, X } from "phosphor-react";
 import { useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { UserContext } from "../../context/UserContext";
 import supherClient from "../../service/SupherClient";
 import { ButtonAsync } from "../Buttons/ButtonAsync";
@@ -15,6 +16,7 @@ interface ConfirmDeleteModalProps {
 export function ConfirmDeleteModal({ id, itemDeleted, isOpen, onClose }: ConfirmDeleteModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { deleteGuardian, deleteBloodCenter, deleteAlert, deleteAppointment, deletePet } = useContext(UserContext);
+  const { t } = useTranslation();
 
   const onConfirmDelete = async () => {
     setIsLoading(true);
@@ -32,7 +34,6 @@ export function ConfirmDeleteModal({ id, itemDeleted, isOpen, onClose }: Confirm
         default:
           const user = JSON.parse(localStorage.getItem("USERINFO")!)
           if ('cpf' in user) {
-            console.log('oi')
             await deleteGuardian(user.id)
           } else {
             await deleteBloodCenter(user.id)
@@ -45,13 +46,13 @@ export function ConfirmDeleteModal({ id, itemDeleted, isOpen, onClose }: Confirm
 
   const handleText = () => {
     if (itemDeleted === 'alert') {
-      return 'esse alerta'
+      return t('forms.thisAlert')
     } else if (itemDeleted === 'appointment') {
-      return 'essa consulta'
+      return t('forms.thisAppointment')
     } else if (itemDeleted === 'pet') {
-      return 'seu pet'
+      return t('forms.thisPet')
     } else {
-      return 'sua conta'
+      return t('forms.thisAccount')
     }
   }
 
@@ -62,11 +63,11 @@ export function ConfirmDeleteModal({ id, itemDeleted, isOpen, onClose }: Confirm
         <div className="flex min-h-full items-center justify-center p-4">
           <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
             <Dialog.Description className="p-5 text-justify">
-              <Dialog.Title className="font-semibold lg:text-2xl text-lg mb-5">{`Tem certeza que deseja excluir ${handleText()}?`}</Dialog.Title>
+              <Dialog.Title className="font-semibold lg:text-2xl text-lg mb-5">{`${t('forms.sureYouWantToDelete')} ${handleText()}?`}</Dialog.Title>
               <div className="flex gap-4 w-full justify-end">
                 <button onClick={onClose} className="flex items-center gap-1 hover:bg-red-100 mt-2 px-4 rounded-full">
                   <X color={'red'} size={20} />
-                  Não
+                  {t('buttons.no')}
                 </button>
                 <ButtonAsync
                   type="button"
@@ -76,7 +77,7 @@ export function ConfirmDeleteModal({ id, itemDeleted, isOpen, onClose }: Confirm
                   className="hover:bg-emerald-100 rounded-full h-10 w-fit mt-2 px-4 flex justify-center items-center gap-2 disabled:bg-gray-300 disabled:text-gray-700"
                 >
                   <Check color={'green'} size={20} />
-                  Sim
+                  {t('buttons.yes')}
                 </ButtonAsync>
               </div>
             </Dialog.Description>

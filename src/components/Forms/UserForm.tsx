@@ -5,6 +5,7 @@ import { LoginForm } from "./LoginForm";
 import { RecoverPasswordForm } from "./RecoverPasswordForm";
 import { RecoverPasswordModal } from "../Modals/RecoverPasswordModal";
 import { TermsModal } from "../Modals/TermsModal";
+import { useTranslation } from "react-i18next";
 
 interface UserFormProps {
   isLogin?: boolean;
@@ -17,6 +18,7 @@ export function UserForm({
   isRegister,
   isRecoverPassword,
 }: UserFormProps) {
+  const { t } = useTranslation();
   const [isGuardian, setIsGuardian] = useState(true);
   const [isBloodCenter, setIsBloodCenter] = useState(false);
   const [isRecoverModalOpen, setIsRecoverModalOpen] = useState(false);
@@ -27,8 +29,8 @@ export function UserForm({
       <div className="max-w-lg lg:w-2/5">
         {(isRegister || isLogin) &&
           <div className="justify-around flex mb-5">
-            <ButtonUser isGuardian={isGuardian} label={"Tutor"} onChangeUser={() => { setIsGuardian(true), setIsBloodCenter(false) }} />
-            <ButtonUser isBloodCenter={isBloodCenter} label={"Hemocentro"} onChangeUser={() => { setIsGuardian(false), setIsBloodCenter(true) }} />
+            <ButtonUser isGuardian={isGuardian} label={t('buttons.guardian')} onChangeUser={() => { setIsGuardian(true), setIsBloodCenter(false) }} />
+            <ButtonUser isBloodCenter={isBloodCenter} label={t('buttons.bloodCenter')} onChangeUser={() => { setIsGuardian(false), setIsBloodCenter(true) }} />
           </div>
         }
 
@@ -58,18 +60,18 @@ export function UserForm({
       </div>
       {isLogin ? (
         <div className="text-center mt-3">
-          <span>Não possui uma conta?</span>
+          <span>{t('forms.dontHaveAccount')}</span>
           <br />
           <a href="/register" className="text-sky-800 underline">
-            Cadastre-se
+          {t('buttons.register')}
           </a>
         </div>
       ) : isRegister ? (
         <div className="text-center mt-3">
-          <span>Já possui uma conta?</span>
+          <span>{t('forms.alredyHasAccount')}</span>
           <br />
           <a href="/login" className="text-sky-800 underline">
-            Faça Login
+            {t('buttons.login')}
           </a>
         </div>
       ) : null}

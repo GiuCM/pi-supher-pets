@@ -11,6 +11,7 @@ import { catsBloodTypeOptions } from "../../utils/data/catsBloodTypes";
 import { UserContext } from "../../context/UserContext";
 import { PetOutput, PetInput } from "../../interfaces/Pet";
 import { ConfirmDeleteModal } from "./ConfirmDeleteModal";
+import { useTranslation } from "react-i18next";
 
 interface PetModalProps {
   pet?: PetOutput,
@@ -24,7 +25,8 @@ export function PetModal({ pet, isOpen, isEditing, onClose }: PetModalProps) {
   const [seeMore, setSeeMore] = useState(false);
   const [deletePetModalOpen, setDeletePetModalOpen] = useState(false);
   const { addPet, updatePet } = useContext(UserContext);
-  const userId = JSON.parse(localStorage.getItem("USERINFO_ID") ?? '')
+  const userId = JSON.parse(localStorage.getItem("USERINFO_ID") ?? '');
+  const { t } = useTranslation();
 
   const onHandleSubmit = async (values: PetInput) => {
     setIsLoading(true);
@@ -86,7 +88,7 @@ export function PetModal({ pet, isOpen, isEditing, onClose }: PetModalProps) {
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
             <Dialog.Panel className="mx-auto max-w-md rounded-2xl bg-white p-6">
-              <Dialog.Title className="font-semibold text-2xl mb-5">{isEditing ? 'Atualizar' : 'Criar'} Pet</Dialog.Title>
+              <Dialog.Title className="font-semibold text-2xl mb-5">{isEditing ? t('buttons.update') : t('buttons.create')} Pet</Dialog.Title>
               <Dialog.Description className="flex flex-col justify-between">
                 <form className="gap-4 flex flex-col" onSubmit={handleSubmit}>
                   <ul className="flex lg:gap-12 gap-6 max-h-32 justify-center">
@@ -94,14 +96,14 @@ export function PetModal({ pet, isOpen, isEditing, onClose }: PetModalProps) {
                       <input type="radio" id="dog" name="species" value="DOG" className="hidden peer" onChange={handleChange} checked={values.species === "DOG"} />
                       <label htmlFor="dog" className="flex flex-col justify-between items-center p-5 text-gray-500 bg-white rounded-lg border border-gray-200 peer-checked:border-red-500 peer-checked:text-red-500 hover:text-gray-600 hover:bg-gray-100">
                         <img src={"/assets/dog-icon.png"} className="h-14" />
-                        <p>Cachorro</p>
+                        <p>{t('guardian.dog')}</p>
                       </label>
                     </li>
                     <li className="w-fit min-w-[6.75rem]">
                       <input type="radio" id="cat" name="species" value="CAT" className="hidden peer" onChange={handleChange} checked={values.species === "CAT"} />
                       <label htmlFor="cat" className="flex flex-col justify-between items-center p-5 text-gray-500 rounded-lg border border-gray-200 peer-checked:border-red-500 peer-checked:text-red-500 hover:text-gray-600 hover:bg-gray-100">
                         <img src={"/assets/cat-icon.png"} className="h-14" />
-                        <p>Gato</p>
+                        <p>{t('guardian.cat')}</p>
                       </label>
                     </li>
                   </ul>
@@ -114,7 +116,7 @@ export function PetModal({ pet, isOpen, isEditing, onClose }: PetModalProps) {
 
                   <TextField
                     name="name"
-                    placeholder="Nome"
+                    placeholder={t('forms.name')!}
                     value={values.name}
                     onChange={(value) => setFieldValue('name', value)}
                     errorMessage={(touched.name && errors.name) ? errors.name : undefined}
@@ -124,14 +126,14 @@ export function PetModal({ pet, isOpen, isEditing, onClose }: PetModalProps) {
                       <input type="radio" id="female" name="sexOfPet" value="FEMALE" className="hidden peer" onChange={handleChange} checked={values.sexOfPet === "FEMALE"} />
                       <label htmlFor="female" className="gap-2 flex justify-between items-center py-1 lg:px-7 px-5 text-gray-500 bg-white rounded-lg border border-gray-200 peer-checked:border-red-500 peer-checked:text-red-500 hover:text-gray-600 hover:bg-gray-100">
                         <GenderFemale />
-                        <p>Fêmea</p>
+                        <p>{t('guardian.female')}</p>
                       </label>
                     </li>
                     <li className="w-fit">
                       <input type="radio" id="male" name="sexOfPet" value="MALE" className="hidden peer" onChange={handleChange} checked={values.sexOfPet === "MALE"} />
                       <label htmlFor="male" className="gap-2 flex justify-between items-center py-1 lg:px-7 px-5 text-gray-500 rounded-lg border border-gray-200 peer-checked:border-red-500 peer-checked:text-red-500 hover:text-gray-600 hover:bg-gray-100">
                         <GenderMale />
-                        <p>Macho</p>
+                        <p>{t('guardian.male')}</p>
                       </label>
                     </li>
                   </ul>
@@ -142,27 +144,27 @@ export function PetModal({ pet, isOpen, isEditing, onClose }: PetModalProps) {
                     null
                   }
 
-                  <p>Aptidez para doação:</p>
+                  <p>{t('guardian.aptitudeForDonation')}</p>
                   <ul className="flex lg:gap-6 gap-2 lg:justify-center justify-between">
                     <li className="w-fit">
                       <input type="radio" id="fit" name="statusToDonation" value="FIT" className="hidden peer" onChange={handleChange} checked={values.statusToDonation === "FIT"} />
                       <label htmlFor="fit" className="gap-2 flex justify-between items-center py-1 lg:px-5 px-2 text-gray-500 bg-white rounded-lg border border-gray-200 peer-checked:border-red-500 peer-checked:text-red-500 hover:text-gray-600 hover:bg-gray-100">
                         <CheckCircle />
-                        <p>Apto</p>
+                        <p>{t('guardian.able')}</p>
                       </label>
                     </li>
                     <li className="w-fit">
                       <input type="radio" id="unfit" name="statusToDonation" value="UNFIT" className="hidden peer" onChange={handleChange} checked={values.statusToDonation === "UNFIT"} />
                       <label htmlFor="unfit" className="gap-2 flex justify-between items-center py-1 lg:px-5 px-2 text-gray-500 rounded-lg border border-gray-200 peer-checked:border-red-500 peer-checked:text-red-500 hover:text-gray-600 hover:bg-gray-100">
                         <XCircle />
-                        <p>Inapto</p>
+                        <p>{t('guardian.unable')}</p>
                       </label>
                     </li>
                     <li className="w-fit">
                       <input type="radio" id="unknow" name="statusToDonation" value="UNKNOW" className="hidden peer" onChange={handleChange} checked={values.statusToDonation === "UNKNOW"} />
                       <label htmlFor="unknow" className="gap-2 flex justify-between items-center py-1 lg:px-5 px-2 text-gray-500 rounded-lg border border-gray-200 peer-checked:border-red-500 peer-checked:text-red-500 hover:text-gray-600 hover:bg-gray-100">
                         <MinusCircle />
-                        <p>Não sei</p>
+                        <p>{t('guardian.dontKnow')}</p>
                       </label>
                     </li>
                   </ul>
@@ -172,17 +174,17 @@ export function PetModal({ pet, isOpen, isEditing, onClose }: PetModalProps) {
                     onClick={() => setSeeMore(!seeMore)}
                     className="flex items-center gap-1 w-fit self-end text-sky-800 underline text-sm"
                   >
-                    Campos Avançados
+                    {t('guardian.advancedFields')}
                     {seeMore ? <CaretUp /> : <CaretDown />}
                   </button>
 
                   {seeMore &&
                     <>
-                      <h3 className="text-sm font-bold mt-2">Campos opicionais:</h3>
-                      <TextField name="breed" placeholder="Raça" value={values.breed} onChange={(value) => setFieldValue('breed', value)} />
+                      <h3 className="text-sm font-bold mt-2">{t('guardian.optionalFields')}</h3>
+                      <TextField name="breed" placeholder={t('guardian.breed')!} value={values.breed} onChange={(value) => setFieldValue('breed', value)} />
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <TextField name="age" placeholder="Idade" value={values.age} onChange={(value) => setFieldValue('age', value)} />
+                          <TextField name="age" placeholder={t('guardian.age')!} value={values.age} onChange={(value) => setFieldValue('age', value)} />
                           {(touched.age && errors.age) ?
                             <span className="text-red-600 text-xs text-center">
                               {errors.age}
@@ -190,7 +192,7 @@ export function PetModal({ pet, isOpen, isEditing, onClose }: PetModalProps) {
                             null
                           }
                         </div>
-                        <TextField name="weight" placeholder="Peso" value={values.weight} onChange={(value) => setFieldValue('weight', value)} />
+                        <TextField name="weight" placeholder={t('guardian.weight')!} value={values.weight} onChange={(value) => setFieldValue('weight', value)} />
                       </div>
                       <ComboBox name="bloodType" value={values.bloodType} onChange={(value) => setFieldValue('bloodType', value)} options={values.species === 'DOG' ? dogsBloodTypeOptions : catsBloodTypeOptions} />
                     </>
@@ -207,7 +209,7 @@ export function PetModal({ pet, isOpen, isEditing, onClose }: PetModalProps) {
                         className="text-sky-800 hover:text-sky-700 border border-sky-800 hover:border-sky-700 rounded-full h-10 w-fit px-3"
                         onClick={onClose}
                       >
-                        Cancelar
+                        {t('buttons.cancel')}
                       </button>
                       <ButtonAsync
                         type="submit"
@@ -215,7 +217,7 @@ export function PetModal({ pet, isOpen, isEditing, onClose }: PetModalProps) {
                         disabled={isLoading}
                         className="bg-sky-800 text-white hover:bg-sky-700 rounded-full h-10 w-fit px-4 flex justify-center items-center gap-2 disabled:bg-gray-300 disabled:text-gray-700"
                       >
-                        {isEditing ? 'Atualizar' : 'Adicionar'}
+                        {isEditing ? t('buttons.update') : t('buttons.add')}
                       </ButtonAsync>
                     </div>
                   </div>

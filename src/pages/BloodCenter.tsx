@@ -13,6 +13,7 @@ import { Alerts } from "../components/Alerts";
 import supherClient from "../service/SupherClient";
 import { PetOutput } from "../interfaces/Pet";
 import { FindPet } from "../components/FindPet";
+import { useTranslation } from "react-i18next";
 
 enum CurrentScreen {
   ALERTS = 'alerts',
@@ -32,6 +33,7 @@ export function BloodCenter() {
   const [currentScreen, setCurrentScreen] = useState<CurrentScreen>(CurrentScreen.APPOINTMENTS);
   const { alerts, appointments } = useContext(UserContext);
   const user = JSON.parse(localStorage.getItem("USERINFO") ?? '');
+  const { t } = useTranslation();
 
   useEffect(() => {
     const onGetPet = async () => {
@@ -66,24 +68,24 @@ export function BloodCenter() {
       }
 
       <Navbar>
-        <ButtonNavbar type="button" label="Sair" path="/" role='secondary' isSignOutButton />
+        <ButtonNavbar type="button" label={t('buttons.leave')} path="/" role='secondary' isSignOutButton />
       </Navbar>
       {(!user.cep || !user.address || !user.number || !user.state || !user.city || !user.district) &&
         <div className="w-full text-center absolute top-14 lg:top-16 text-sm lg:text-base bg-red-200">
-          <p>Cadastre seu endereço para te encontrarem</p>
+          <p>{t('bloodCenter.registerAddress')}</p>
         </div>
       }
       <div className="lg:mt-28 mt-20 lg:mx-32 sm:mx-12 mx-6 flex gap-14">
         <div className={`lg:w-4/6 lg:block w-full ${currentScreen !== 'appointments' && 'hidden'}`}>
           <div className="flex justify-between items-center">
-            <h1 className="md:text-3xl text-xl">Olá {user.name}!</h1>
+            <h1 className="md:text-3xl text-xl">{t('forms.hello')} {user.name}!</h1>
             <button onClick={() => setOpenEditProfileModal(true)} className="px-1 py-1 lg:my-0 my-1 w-fit rounded-full">
               <PencilSimple color="#075985" size={24} />
             </button>
           </div>
           <hr className="border-1 border-sky-800 my-4" />
           <div className="flex justify-between">
-            <h1 className="text-xl">Suas Consultas:</h1>
+            <h1 className="text-xl">{t('bloodCenter.yourAppointments')}</h1>
             <button onClick={() => setOpenAppointmentModal(true)} className="w-fit self-end rounded-full p-2 bg-sky-800 hover:bg-sky-700 lg:hidden">
               <Plus className="m-auto" size={18} color="#ffffff" />
             </button>
@@ -110,7 +112,7 @@ export function BloodCenter() {
                   onChange={(value) => setSearchPet(value)}
                 />
                 : <div className="flex justify-between">
-                  <h1 className="text-lg font-medium">Buscar Pets</h1>
+                  <h1 className="text-lg font-medium">{t('bloodCenter.findPets')}</h1>
                   <button onClick={() => setIsSearchingPet(true)}>
                     <MagnifyingGlass />
                   </button>
@@ -129,7 +131,7 @@ export function BloodCenter() {
           <div className={`bg-white min-h-[11rem] shadow rounded-3xl p-5 flex flex-col w-full gap-6 lg:block lg:mt-4 ${currentScreen !== 'alerts' && 'hidden'}`}>
             <>
               <div className="flex justify-between items-center">
-                <h1 className="text-lg font-medium">Criar Alerta</h1>
+                <h1 className="text-lg font-medium">{t('bloodCenter.createAlert')}</h1>
                 <button onClick={() => setOpenAlertModal(true)} className="self-end  w-fit rounded-full p-2 bg-sky-800 hover:bg-sky-700">
                   <Plus className="m-auto" size={15} color="#ffffff" />
                 </button>
@@ -145,15 +147,15 @@ export function BloodCenter() {
         {screenOptionsOpen &&
           <div className="bottom-16 right-2 p-3 rounded-lg gap-3 flex flex-col w-full items-end lg:hidden bg-sky-800 text-white">
             <button className={`flex gap-2 ${currentScreen === 'appointments' && 'hidden'}`} onClick={() => { setCurrentScreen(CurrentScreen.APPOINTMENTS); setScreenOpitionsOpen(false) }}>
-              Consultas
+              {t('bloodCenter.appointments')}
               <CalendarBlank className="m-auto" size={15} color="#ffffff" />
             </button>
             <button className={`flex gap-2 ${currentScreen === 'findPets' && 'hidden'}`} onClick={() => { setCurrentScreen(CurrentScreen.FINDPETS); setScreenOpitionsOpen(false) }}>
-              Buscar Pets
+              {t('bloodCenter.findPets')}
               <PawPrint className="m-auto" size={15} color="#ffffff" />
             </button>
             <button className={`flex gap-2 ${currentScreen === 'alerts' && 'hidden'}`} onClick={() => { setCurrentScreen(CurrentScreen.ALERTS); setScreenOpitionsOpen(false) }}>
-              Alertas
+              {t('bloodCenter.alerts')}
               <WarningCircle className="m-auto" size={15} color="#ffffff" />
             </button>
           </div>

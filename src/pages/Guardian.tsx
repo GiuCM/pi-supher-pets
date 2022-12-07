@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from 'react'
 import { PetModal } from "../components/Modals/PetModal";
 import { UserContext } from "../context/UserContext";
 import { NearBloodCenter } from "../components/NearBloodCenter";
+import { useTranslation } from "react-i18next";
 
 enum CurrentScreen {
   FINDBLOODCENTER = 'findBloodCenter',
@@ -24,6 +25,7 @@ export function Guardian() {
   const [currentScreen, setCurrentScreen] = useState<CurrentScreen>(CurrentScreen.PETS);
   const { pets, nearBlodCenters, loadNearBloodCenter } = useContext(UserContext);
   const user = JSON.parse(localStorage.getItem("USERINFO") ?? '');
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (user.cep) {
@@ -46,18 +48,18 @@ export function Guardian() {
       }
 
       <Navbar>
-        <ButtonNavbar type="button" label="Sair" role='secondary' isSignOutButton />
+        <ButtonNavbar type="button" label={t('buttons.leave')} role='secondary' isSignOutButton />
       </Navbar>
       <div className="lg:mt-28 mt-20 lg:mx-32 sm:mx-12 mx-6 lg:flex lg:gap-14">
         <div className={`lg:w-4/6 lg:block ${currentScreen !== 'pets' && 'hidden w-full'}`}>
           <div className="flex justify-between items-center">
-            <h1 className="md:text-3xl text-xl">Olá {(user.name as string + ' ').split(' ').shift()}!</h1>
+            <h1 className="md:text-3xl text-xl">{t('forms.hello')} {(user.name as string + ' ').split(' ').shift()}!</h1>
             <button onClick={() => setOpenEditProfileModal(true)} className="px-1 py-1 lg:my-0 my-1 w-fit rounded-full">
               <PencilSimple color="#075985" size={24} />
             </button>
           </div>
           <hr className="border-1 border-sky-800 my-4" />
-          <h1 className="text-xl">Seus Pets:</h1>
+          <h1 className="text-xl">{t('guardian.yourPets')}</h1>
           <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4 mt-4 justify-items-center">
             {pets && pets.map(pet => (
               <Pets pet={pet} key={pet.id} />
@@ -70,9 +72,9 @@ export function Guardian() {
         <div className={`lg:w-2/6 lg:block bg-white shadow rounded-3xl p-5 min-h-[22rem] ${currentScreen !== 'findBloodCenter' && 'hidden w-full'}`}>
           <>
             {isSearching
-              ? <TextField placeholder="Pesquise aqui" onBlur={() => { !searchBloodCenter && setIsSearching(false) }} autoFocus value={searchBloodCenter} onChange={(value) => setSearchBloodCenter(value)} />
+              ? <TextField placeholder={t('forms.searchHere')!} onBlur={() => { !searchBloodCenter && setIsSearching(false) }} autoFocus value={searchBloodCenter} onChange={(value) => setSearchBloodCenter(value)} />
               : <div className="flex justify-between">
-                <h1 className="text-lg font-medium">Hemocentros Próximos</h1>
+                <h1 className="text-lg font-medium">{t('guardian.nearBloodCenters')}</h1>
                 <button onClick={() => setIsSearching(true)}>
                   <MagnifyingGlass />
                 </button>
@@ -88,7 +90,7 @@ export function Guardian() {
                 : nearBlodCenters.map(bloodCenter => (
                   <NearBloodCenter key={bloodCenter.id} bloodCenter={bloodCenter} />
                 )))
-              : <p className="mt-10 text-red-500 text-lg text-justify font-semibold">Cadastre seu endereço para localizar os hemocentros próximos</p>
+              : <p className="mt-10 text-red-500 text-lg text-justify font-semibold">{t('guardian.registerYourAddress')}</p>
             }
           </>
         </div>
@@ -101,7 +103,7 @@ export function Guardian() {
               <PawPrint className="m-auto" size={15} color="#ffffff" />
             </button>
             <button className={`flex gap-2 ${currentScreen === 'findBloodCenter' && 'hidden'}`} onClick={() => { setCurrentScreen(CurrentScreen.FINDBLOODCENTER); setScreenOpitionsOpen(false) }}>
-              Buscar Hemocentros
+              {t('guardian.findBloodCenters')}
               <FirstAid className="m-auto" size={15} color="#ffffff" />
             </button>
           </div>

@@ -5,6 +5,8 @@ import { useContext, useState } from "react";
 import { ButtonAsync } from "../Buttons/ButtonAsync";
 import { UserContext } from "../../context/UserContext";
 import { toast, ToastContainer } from "react-toastify";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 interface FormValuesProps {
   username: string,
@@ -17,6 +19,7 @@ interface LoginFormProps {
 }
 
 export const LoginForm = ({ isGuardian, onForgotPassword }: LoginFormProps) => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { signInGuardian, signInBloodCenter } = useContext(UserContext);
 
@@ -64,7 +67,7 @@ export const LoginForm = ({ isGuardian, onForgotPassword }: LoginFormProps) => {
   return (
     <>
       <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
-        <h2 className="lg:text-2xl text-xl font-semibold text-zinc-800 text-center mb-3">Login {isGuardian ? 'Tutor' : 'Hemocentro'}</h2>
+        <h2 className="lg:text-2xl text-xl font-semibold text-zinc-800 text-center mb-3">{isGuardian ? t('forms.guardianLogin') : t('forms.bloodCenterLogin')}</h2>
         <TextField
           name="username"
           placeholder="Email"
@@ -75,14 +78,14 @@ export const LoginForm = ({ isGuardian, onForgotPassword }: LoginFormProps) => {
         />
         <TextField
           name="password"
-          placeholder="Senha"
+          placeholder={t('forms.password')!}
           value={values.password}
           onChange={(value) => { setFieldValue('password', value) }}
           onBlur={handleBlur}
           errorMessage={(touched.password && errors.password) ? errors.password : undefined}
           isPassword
         />
-        <button type="button" className="text-sky-800 underline text-sm right-0 w-fit self-end" onClick={onForgotPassword}>Esqueceu a senha?</button>
+        <button type="button" className="text-sky-800 underline text-sm right-0 w-fit self-end" onClick={onForgotPassword}>{t('forms.forgotPassword')}</button>
 
         <div className="flex flex-col items-center">
           <ButtonAsync
@@ -91,7 +94,7 @@ export const LoginForm = ({ isGuardian, onForgotPassword }: LoginFormProps) => {
             disabled={isLoading}
             className="bg-sky-800 text-white hover:bg-sky-700 rounded-full h-10 w-fit mt-2 px-4 flex justify-center items-center gap-2 disabled:bg-gray-300 disabled:text-gray-700"
           >
-            Login
+            {t('buttons.login')}
           </ButtonAsync>
         </div>
       </form>

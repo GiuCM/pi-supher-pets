@@ -15,6 +15,7 @@ import { validatePhone } from "../../utils/validators/phone";
 import { BloodCenterUpdate, GuardianUpdate, UserUpdate } from "../../interfaces/User";
 import { Trash } from "phosphor-react";
 import { ConfirmDeleteModal } from "./ConfirmDeleteModal";
+import { useTranslation } from "react-i18next";
 
 interface ProfileModalProps {
   isOpen: boolean,
@@ -31,6 +32,7 @@ export function ProfileModal({ isOpen, isGuardian, onClose }: ProfileModalProps)
   const [isLoading, setIsLoading] = useState(false);
   const [deleteAccountModalOpen, setDeleteAccountModalOpen] = useState(false);
   const { updateGuardian, updateBloodCenter } = useContext(UserContext);
+  const { t } = useTranslation();
 
   const onHandleSubmit = async (values: FormValuesProps) => {
     setIsLoading(true);
@@ -129,7 +131,7 @@ export function ProfileModal({ isOpen, isGuardian, onClose }: ProfileModalProps)
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
             <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-              <Dialog.Title className="font-semibold text-2xl mb-5">Editar Perfil</Dialog.Title>
+              <Dialog.Title className="font-semibold text-2xl mb-5">{t('forms.editProfile')}</Dialog.Title>
               <Dialog.Description>
                 <form className="flex flex-col gap-4 " onSubmit={handleSubmit}>
                   {isGuardian
@@ -152,7 +154,7 @@ export function ProfileModal({ isOpen, isGuardian, onClose }: ProfileModalProps)
                   }
                   <TextField
                     name="name"
-                    placeholder="Nome"
+                    placeholder={t('forms.name')!}
                     value={values.name}
                     onChange={(value) => setFieldValue('name', value)}
                     errorMessage={(touched.name && errors.name) ? errors.name : undefined}
@@ -166,7 +168,7 @@ export function ProfileModal({ isOpen, isGuardian, onClose }: ProfileModalProps)
                   />
                   <TextField
                     name="telephone"
-                    placeholder="Celular"
+                    placeholder={t('forms.phone')!}
                     value={values.telephone}
                     onChange={(value) => setFieldValue('telephone', formatPhoneNumber(value))}
                     errorMessage={(touched.telephone && errors.telephone) ? errors.telephone : undefined}
@@ -188,7 +190,7 @@ export function ProfileModal({ isOpen, isGuardian, onClose }: ProfileModalProps)
                     />
                     <TextField
                       name="city"
-                      placeholder="Cidade"
+                      placeholder={t('forms.city')!}
                       value={values.city ?? ''}
                       onChange={(value) => setFieldValue('city', value)}
                       errorMessage={(touched.city && errors.city) ? errors.city : undefined}
@@ -196,7 +198,7 @@ export function ProfileModal({ isOpen, isGuardian, onClose }: ProfileModalProps)
                   </div>
                   <TextField
                     name="address"
-                    placeholder="Rua"
+                    placeholder={t('forms.address')!}
                     value={values.address ?? ''}
                     onChange={(value) => setFieldValue('address', value)}
                     errorMessage={(touched.address && errors.address) ? errors.address : undefined}
@@ -204,14 +206,14 @@ export function ProfileModal({ isOpen, isGuardian, onClose }: ProfileModalProps)
                   <div className="flex gap-3">
                     <TextField
                       name="number"
-                      placeholder="Nº"
+                      placeholder={t('forms.number')!}
                       value={values.number ?? ''}
                       onChange={(value) => setFieldValue('number', value)}
                       errorMessage={(touched.number && errors.number) ? errors.number : undefined}
                     />
                     <TextField
                       name="district"
-                      placeholder="Bairro"
+                      placeholder={t('forms.district')!}
                       value={values.district ?? ''}
                       onChange={(value) => setFieldValue('district', value)}
                       errorMessage={(touched.district && errors.district) ? errors.district : undefined}
@@ -228,7 +230,7 @@ export function ProfileModal({ isOpen, isGuardian, onClose }: ProfileModalProps)
                         className="text-sky-800 hover:text-sky-700 border border-sky-800 hover:border-sky-700 rounded-full h-10 w-fit px-3"
                         onClick={onClose}
                       >
-                        Cancelar
+                        {t('buttons.cancel')}
                       </button>
                       <ButtonAsync
                         type="submit"
@@ -236,7 +238,7 @@ export function ProfileModal({ isOpen, isGuardian, onClose }: ProfileModalProps)
                         disabled={isLoading}
                         className="bg-sky-800 text-white hover:bg-sky-700 rounded-full h-10 w-fit px-4 flex justify-center items-center gap-2 disabled:bg-gray-300 disabled:text-gray-700"
                       >
-                        Atualizar
+                        {t('buttons.update')}
                       </ButtonAsync>
                     </div>
                   </div>
